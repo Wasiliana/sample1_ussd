@@ -22,8 +22,8 @@ class UssdController extends Controller
 
         $sessionData['phoneNumber'] = $phoneNumber;
         $sessionData['serviceCode'] = $serviceCode;
-        $sessionData['sessionId'] =$sessionId;
-        $sessionData['text'] =$text;
+        $sessionData['sessionId'] = $sessionId;
+        $sessionData['text'] = $text;
         file_put_contents(storage_path('app/first-log.json'), json_encode($postData));
 
         // if (empty($sessionId)) {
@@ -57,7 +57,7 @@ class UssdController extends Controller
                         // Update the session data
                         $sessionData['phoneNumber'] = $phoneNumber;
                         $sessionData['serviceCode'] = $serviceCode;
-                        $sessionData['text'] = $text==null ? '' : $text;
+                        $sessionData['text'] = $text == null ? '' : $text;
                         $sessionData['step'] = 1;
                         file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
@@ -79,8 +79,9 @@ class UssdController extends Controller
                     break;
                 case '2':
                     // Prompt the user to enter a valid option
-                    if (!is_numeric($text) || $text != 1) {
-                        $message = "CON please enter a valid option". $text." .\n";
+                    $userOption = explode('*', $text);
+                    if (!is_numeric($userOption[1]) || $userOption[1] != 1) {
+                        $message = "CON please enter a valid option. \n";
                         $message .= "1. Proceed \n";
 
                         // Update the session data
@@ -99,7 +100,7 @@ class UssdController extends Controller
                     // Update the session data
                     $sessionData['phoneNumber'] = $phoneNumber;
                     $sessionData['serviceCode'] = $serviceCode;
-                    $sessionData['text'] = $ussdSes['text'] . '#' . $text;
+                    $sessionData['text'] = $ussdSes['text'];
                     $sessionData['step'] = 1;
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
@@ -121,7 +122,7 @@ class UssdController extends Controller
             // Update the session data
             $sessionData['phoneNumber'] = $phoneNumber;
             $sessionData['serviceCode'] = $serviceCode;
-            $sessionData['text'] = $text==null ? '' : $text;
+            $sessionData['text'] = $text == null ? '' : $text;
             $sessionData['step'] = 1;
             file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
