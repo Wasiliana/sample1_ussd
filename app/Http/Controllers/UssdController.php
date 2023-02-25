@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 
 class UssdController extends Controller
@@ -82,9 +83,10 @@ class UssdController extends Controller
                     $sessionData['text'] = $ussdSes['text'];
                     $sessionData['step'] = 1;
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
-                    // return $message;
-                    $this->trigger_stk($ussdSes['text'], $phoneNumber,$message);
 
+                    $this->trigger_stk($ussdSes['text'], $phoneNumber, $message);
+
+                    return $message;
                     break;
 
                 default:
@@ -109,25 +111,34 @@ class UssdController extends Controller
     }
 
     // Write your stk or payment code here 
-    public function trigger_stk($amount, $phone_number,$message)
+    public function trigger_stk($amount, $phone_number, $message)
     {
 
         $client = new Client();
         $url = env("STK_LINK") . "WASILIANA-9008";
         $params = array('phone_number' => $phone_number, 'amount' => $amount, 'type' => 'app');
-        $response = $client->request(
+        $promise = $client->requestAsync(
             'POST',
             $url,
             [
                 'form_params' => $params
             ]
         );
-        
 
-        file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
+        try {
+            $promise->wait();
+        } catch (\Exception $ex) {
+            ## Handle                       
+        }
 
-        // return $response->getBody()->getContents();
+        // file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
 
-        return $message;
+
+        // Http::post($url, [
+        //     'form_params' => $params
+        // ]);
+
+
+        // return $message;
     }
 }
