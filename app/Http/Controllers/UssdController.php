@@ -75,7 +75,7 @@ class UssdController extends Controller
                     }
 
                     // End the session and trigger the payment
-                    $message = "END thank you for using Wasiliana you will relieve an Mpesa prompt to complete payment.\n";
+                    $message = "CON thank you for using Wasiliana you will relieve an Mpesa prompt to complete payment.\n";
 
                     // Update the session data
                     $sessionData['phoneNumber'] = $phoneNumber;
