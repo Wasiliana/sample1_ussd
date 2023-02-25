@@ -51,13 +51,13 @@ class UssdController extends Controller
             switch ($ussdSes['step']) {
                 case '1':
                     // Prompt the user to enter a valid amount
-                    if (!is_numeric($text)) {
+                    if (!is_numeric($text) && $text != null) {
                         $message = "CON please enter a valid amount.\n";
 
                         // Update the session data
                         $sessionData['phoneNumber'] = $phoneNumber;
                         $sessionData['serviceCode'] = $serviceCode;
-                        $sessionData['text'] = $ussdSes['text'] . '#' . $text;
+                        $sessionData['text'] = $text==null ? '' : $text;
                         $sessionData['step'] = 1;
                         file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
@@ -121,7 +121,7 @@ class UssdController extends Controller
             // Update the session data
             $sessionData['phoneNumber'] = $phoneNumber;
             $sessionData['serviceCode'] = $serviceCode;
-            $sessionData['text'] = $text;
+            $sessionData['text'] = $text==null ? '' : $text;
             $sessionData['step'] = 1;
             file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
