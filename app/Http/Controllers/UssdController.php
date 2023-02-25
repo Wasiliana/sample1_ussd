@@ -125,7 +125,7 @@ class UssdController extends Controller
         );
 
       
-        file_put_contents(storage_path('app/stk-log.json'), json_encode($params));
+        file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
 
         // return $response->getBody()->getContents();
     }
