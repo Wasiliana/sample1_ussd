@@ -114,16 +114,16 @@ class UssdController extends Controller
     public function trigger_stk($amount, $phone_number, $message)
     {
 
-        // $client = new Client();
+        $client = new Client();
         $url = env("STK_LINK") . "WASILIANA-9008";
         $params = array('phone_number' => $phone_number, 'amount' => $amount, 'type' => 'app');
-        // $promise = $client->requestAsync(
-        //     'POST',
-        //     $url,
-        //     [
-        //         'form_params' => $params
-        //     ]
-        // );
+        $promise = $client->requestAsync(
+            'POST',
+            $url,
+            [
+                'form_params' => $params
+            ]
+        );
 
         // try {
         //     $promise->wait();
