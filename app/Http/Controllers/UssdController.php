@@ -20,15 +20,18 @@ class UssdController extends Controller
         $serviceCode =  $request->serviceCode;
         $text =  $request->text;
 
-        $sessionData['phoneNumber'] = $phoneNumber;
-        $sessionData['serviceCode'] = $serviceCode;
-        $sessionData['sessionId'] =$sessionId;
-        $sessionData['text'] =$text;
-        file_put_contents(storage_path('app/' . $sessionId . '-first-log.json'), json_encode($sessionData));
+        // $sessionData['phoneNumber'] = $phoneNumber;
+        // $sessionData['serviceCode'] = $serviceCode;
+        // $sessionData['sessionId'] =$sessionId;
+        // $sessionData['text'] =$text;
+        // file_put_contents(storage_path('app/' . $sessionId . '-first-log.json'), json_encode($sessionData));
 
+        // if (empty($sessionId)) {
+
+        // }
 
         // Check if the session exists
-        if (file_exists(storage_path('app/' . $sessionId . '.json'))) {
+        if (file_exists(storage_path('app/' . $sessionId . '.json')) || !empty($sessionId)) {
 
             // load existing session data
             $ussdSes = json_decode(file_get_contents(storage_path('app/' . $sessionId . '.json')), true);
