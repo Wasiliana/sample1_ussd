@@ -51,7 +51,7 @@ class UssdController extends Controller
             switch ($ussdSes['step']) {
                 case '1':
                     // Prompt the user to enter a valid amount
-                    if (!is_numeric($text) && $text != null) {
+                    if (!is_numeric($text)) {
                         $message = "CON please enter a valid amount.\n";
 
                         // Update the session data
