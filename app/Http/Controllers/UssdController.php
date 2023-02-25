@@ -26,12 +26,23 @@ class UssdController extends Controller
         // $sessionData['text'] =$text;
         // file_put_contents(storage_path('app/' . $sessionId . '-first-log.json'), json_encode($sessionData));
 
-        // if (empty($sessionId)) {
+        if (empty($sessionId)) {
+            // if the session is empty
 
-        // }
+            $message = "CON Welcome to wasiliana enter amount to proceed.\n";
+
+            // Update the session data
+            $sessionData['phoneNumber'] = $phoneNumber;
+            $sessionData['serviceCode'] = $serviceCode;
+            $sessionData['text'] = $text;
+            $sessionData['step'] = 1;
+            file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
+
+            return $message;
+        }
 
         // Check if the session exists
-        if (file_exists(storage_path('app/' . $sessionId . '.json')) || !empty($sessionId)) {
+        if (file_exists(storage_path('app/' . $sessionId . '.json'))) {
 
             // load existing session data
             $ussdSes = json_decode(file_get_contents(storage_path('app/' . $sessionId . '.json')), true);
