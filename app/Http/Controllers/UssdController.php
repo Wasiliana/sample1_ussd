@@ -42,7 +42,7 @@ class UssdController extends Controller
         // }
 
         // Check if the session exists
-        if (file_exists(storage_path('app/' . $sessionId . '.json'))) {
+        if (file_exists(storage_path('app/' . $sessionId . '.json')) && $text != null) {
 
             // load existing session data
             $ussdSes = json_decode(file_get_contents(storage_path('app/' . $sessionId . '.json')), true);
