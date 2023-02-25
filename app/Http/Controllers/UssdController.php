@@ -82,10 +82,10 @@ class UssdController extends Controller
                     $sessionData['text'] = $ussdSes['text'];
                     $sessionData['step'] = 1;
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
+                    return $message;
 
                     $this->trigger_stk($ussdSes['text'], $phoneNumber);
 
-                    return $message;
                     break;
 
                 default:
@@ -114,17 +114,17 @@ class UssdController extends Controller
     {
 
         $client = new Client();
-        $uri = env("STK_LINK") . "WASILIANA-9008";
+        $url = env("STK_LINK") . "WASILIANA-9008";
         $params = array('phone_number' => $phone_number, 'amount' => $amount, 'type' => 'app');
         $response = $client->request(
             'POST',
-            $uri,
+            $url,
             [
                 'form_params' => $params
             ]
         );
 
-      
+
         file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
 
         // return $response->getBody()->getContents();
