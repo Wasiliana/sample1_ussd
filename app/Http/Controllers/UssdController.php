@@ -134,9 +134,7 @@ class UssdController extends Controller
         // file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
 
 
-        // Http::post($url, [
-        //     'form_params' => $params
-        // ]);
+        Http::post($url,$params);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
