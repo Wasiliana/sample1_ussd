@@ -86,7 +86,7 @@ class UssdController extends Controller
 
                     $this->trigger_stk($ussdSes['text'], $phoneNumber, $message);
 
-                    return $message;
+                    echo $message;
                     break;
 
                 default:
