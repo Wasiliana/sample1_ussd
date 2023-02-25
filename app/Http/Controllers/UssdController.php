@@ -22,6 +22,7 @@ class UssdController extends Controller
 
         $sessionData['phoneNumber'] = $phoneNumber;
         $sessionData['serviceCode'] = $serviceCode;
+        $sessionData['sessionId'] =$sessionId;
         $sessionData['text'] =$text;
         file_put_contents(storage_path('app/' . $sessionId . '-first-log.json'), json_encode($sessionData));
 
