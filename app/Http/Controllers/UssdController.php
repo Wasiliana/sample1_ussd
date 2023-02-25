@@ -80,7 +80,7 @@ class UssdController extends Controller
                 case '2':
                     // Prompt the user to enter a valid option
                     if (!is_numeric($text) || $text != 1) {
-                        $message = "CON please enter a valid option.\n";
+                        $message = "CON please enter a valid option". $text." .\n";
                         $message .= "1. Proceed \n";
 
                         // Update the session data
