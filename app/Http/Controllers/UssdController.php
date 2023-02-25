@@ -82,9 +82,8 @@ class UssdController extends Controller
                     $sessionData['text'] = $ussdSes['text'];
                     $sessionData['step'] = 1;
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
-                    return $message;
-
-                    $this->trigger_stk($ussdSes['text'], $phoneNumber);
+                    // return $message;
+                    $this->trigger_stk($ussdSes['text'], $phoneNumber,$message);
 
                     break;
 
@@ -110,7 +109,7 @@ class UssdController extends Controller
     }
 
     // Write your stk or payment code here 
-    public function trigger_stk($amount, $phone_number)
+    public function trigger_stk($amount, $phone_number,$message)
     {
 
         $client = new Client();
@@ -123,10 +122,12 @@ class UssdController extends Controller
                 'form_params' => $params
             ]
         );
-
+        
 
         file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
 
         // return $response->getBody()->getContents();
+
+        return $message;
     }
 }
