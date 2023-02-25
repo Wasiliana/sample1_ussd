@@ -20,27 +20,6 @@ class UssdController extends Controller
         $serviceCode =  $request->serviceCode;
         $text =  $request->text;
 
-        $sessionData['phoneNumber'] = $phoneNumber;
-        $sessionData['serviceCode'] = $serviceCode;
-        $sessionData['sessionId'] = $sessionId;
-        $sessionData['text'] = $text;
-        file_put_contents(storage_path('app/first-log.json'), json_encode($postData));
-
-        // if (empty($sessionId)) {
-        //     // if the session is empty
-
-        //     $message = "CON Welcome to wasiliana enter amount to proceed.\n";
-
-        //     // Update the session data
-        //     $sessionData['phoneNumber'] = $phoneNumber;
-        //     $sessionData['serviceCode'] = $serviceCode;
-        //     $sessionData['text'] = $text;
-        //     $sessionData['step'] = 1;
-        //     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
-
-        //     return $message;
-        // }
-
         // Check if the session exists
         if (file_exists(storage_path('app/' . $sessionId . '.json')) && $text != null) {
 
@@ -144,6 +123,9 @@ class UssdController extends Controller
                 'form_params' => $params
             ]
         );
+
+      
+        file_put_contents(storage_path('app/stk-log.json'), json_encode($params));
 
         // return $response->getBody()->getContents();
     }
