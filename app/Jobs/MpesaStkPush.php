@@ -48,12 +48,11 @@ class MpesaStkPush implements ShouldQueue
             $client = new Client();
             $url = env("STK_LINK") . "WASILIANA-9008";
             $params = array('phone_number' => $this->phoneNumber, 'amount' => $this->amount, 'type' => 'app');
-            $headers = [
-                'Content-Type' => 'application/json'
-            ];
+            $headers = [];
 
             $request = new Request('POST', $url, $headers, json_encode($params));
             $response = $client->sendAsync($request)->wait();
+
         } catch (\Throwable $th) {
             //throw $th;
         }
