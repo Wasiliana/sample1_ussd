@@ -37,7 +37,7 @@ class MpesaStkPush implements ShouldQueue
         $client = new Client();
         $url = env("STK_LINK") . "WASILIANA-9008";
         $params = array('phone_number' => $this->phoneNumber, 'amount' => $this->amount, 'type' => 'app');
-        $promise = $client->requestAsync(
+        $promise = $client->request(
             'POST',
             $url,
             [

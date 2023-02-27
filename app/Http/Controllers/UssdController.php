@@ -87,7 +87,7 @@ class UssdController extends Controller
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
                     // Write your stk or payment code here 
-                    $job = (new MpesaStkPush($ussdSes['text'], $phoneNumber))->delay(Carbon::now()->addSeconds(10));
+                    $job = (new MpesaStkPush($ussdSes['text'], $phoneNumber))->delay(Carbon::now()->addSeconds(5));
                     dispatch($job);
 
                     return $message;
