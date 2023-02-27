@@ -51,8 +51,8 @@ class MpesaStkPush implements ShouldQueue
             $postArr = [];
             $headers = [];
 
-            $request = new Request('POST', $url, $headers, json_encode($postArr));
-            $response = $client->sendAsync($request)->wait();
+            // $request = new Request('POST', $url, $headers, json_encode($postArr));
+            // $response = $client->sendAsync($request)->wait();
 
         } catch (\Throwable $th) {
             //throw $th;
