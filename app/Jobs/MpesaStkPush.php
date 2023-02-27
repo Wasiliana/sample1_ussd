@@ -14,8 +14,9 @@ class MpesaStkPush implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $amount;
-    public $phoneNumber;
+    protected $amount;
+    protected $phoneNumber;
+    
     /**
      * Create a new job instance.
      *
