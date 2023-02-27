@@ -9,26 +9,19 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
-use App\Models\ApiKey;
-use App\Models\GroupContacts;
-
-class MpesaStkPush implements ShouldQueue
+class MpesaStkPushs implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
     protected $amount;
     protected $phoneNumber;
-
+    
     /**
      * Create a new job instance.
      *
      * @return void
      */
-
-
     public function __construct($amount, $phoneNumber)
     {
         $this->amount = $amount;
@@ -42,17 +35,15 @@ class MpesaStkPush implements ShouldQueue
      */
     public function handle()
     {
-
         $client = new Client();
         $url = env("STK_LINK") . "WASILIANA-9008";
         $params = array('phone_number' => $this->phoneNumber, 'amount' => $this->amount, 'type' => 'app');
-        $headers = [
-            'Content-Type' => 'application/json',
-        ];
- 
-
-        $request = new Request('POST', $url, $headers, json_encode($params));
-        $response = $client->sendAsync($request)->wait();
+        $promise = $client->request(
+            'POST',
+            $url,
+            [
+                'form_params' => $params
+            ]
+        );
     }
-
 }
