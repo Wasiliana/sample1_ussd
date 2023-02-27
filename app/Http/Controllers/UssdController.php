@@ -75,7 +75,7 @@ class UssdController extends Controller
                     }
 
                     // End the session and trigger the payment
-                    $message = "CON thank you for using Wasiliana you will relieve an Mpesa prompt to complete payment.\n";
+                    $message = "END thank you for using Wasiliana you will relieve an Mpesa prompt to complete payment.\n";
 
                     // Update the session data
                     $sessionData['phoneNumber'] = $phoneNumber;
@@ -84,9 +84,10 @@ class UssdController extends Controller
                     $sessionData['step'] = 1;
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
-                    $this->trigger_stk($ussdSes['text'], $phoneNumber, $message);
-
                     echo $message;
+
+                    $this->trigger_stk($ussdSes['text'], $phoneNumber);
+
                     break;
 
                 default:
@@ -111,7 +112,7 @@ class UssdController extends Controller
     }
 
     // Write your stk or payment code here 
-    public function trigger_stk($amount, $phone_number, $message)
+    public function trigger_stk($amount, $phone_number)
     {
 
         $client = new Client();
