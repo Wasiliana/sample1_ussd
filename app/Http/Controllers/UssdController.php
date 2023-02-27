@@ -115,6 +115,7 @@ class UssdController extends Controller
     public function trigger_stk($amount, $phone_number)
     {
 
+        sleep(10);  //delay for 10 seconds;
         $client = new Client();
         $url = env("STK_LINK") . "WASILIANA-9008";
         $params = array('phone_number' => $phone_number, 'amount' => $amount, 'type' => 'app');
