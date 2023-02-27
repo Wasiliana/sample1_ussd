@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\MpesaStkPush;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 
 class UssdController extends Controller
@@ -84,10 +86,11 @@ class UssdController extends Controller
                     $sessionData['step'] = 1;
                     file_put_contents(storage_path('app/' . $sessionId . '.json'), json_encode($sessionData));
 
-                    echo $message;
+                    // Write your stk or payment code here 
+                    $job = (new MpesaStkPush($ussdSes['text'], $phoneNumber))->delay(Carbon::now()->addSeconds(10));
+                    dispatch($job);
 
-                    $this->trigger_stk($ussdSes['text'], $phoneNumber);
-
+                    return $message;
                     break;
 
                 default:
@@ -109,52 +112,5 @@ class UssdController extends Controller
 
             return $message;
         }
-    }
-
-    // Write your stk or payment code here 
-    public function trigger_stk($amount, $phone_number)
-    {
-
-        sleep(10);  //delay for 10 seconds;
-        $client = new Client();
-        $url = env("STK_LINK") . "WASILIANA-9008";
-        $params = array('phone_number' => $phone_number, 'amount' => $amount, 'type' => 'app');
-        $promise = $client->requestAsync(
-            'POST',
-            $url,
-            [
-                'form_params' => $params
-            ]
-        );
-
-        // try {
-        //     $promise->wait();
-        // } catch (\Exception $ex) {
-        //     ## Handle                       
-        // }
-
-        // file_put_contents(storage_path('app/stk-log.json'), json_encode($response->getBody()->getContents()));
-
-
-        Http::post($url,$params);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'mehehe_net');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 59000);
-        curl_setopt($ch, CURLOPT_POST, true);
-        $dt = ["form_params" => json_encode($params)];
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        $cont = curl_exec($ch);
-        curl_close($ch);
-
-
-        // return $message;
     }
 }
