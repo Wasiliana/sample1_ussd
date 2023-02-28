@@ -88,7 +88,8 @@ class UssdController extends Controller
 
                     // Write your stk or payment code here 
                     // $job = (new MpesaStkPush($ussdSes['text'], $phoneNumber))->delay(Carbon::now()->addSeconds(5));
-                    dispatch(new MpesaStkPush(5, $phoneNumber));
+                    // dispatch(new MpesaStkPush(5, $phoneNumber));
+                    MpesaStkPush::dispatch(5, $phoneNumber);
                     return $message;
                     break;
 
