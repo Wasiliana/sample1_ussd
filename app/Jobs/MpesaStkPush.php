@@ -19,6 +19,8 @@ class MpesaStkPush implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
+
+    protected $dataArray;
     protected $amount;
     protected $phoneNumber;
 
@@ -29,10 +31,11 @@ class MpesaStkPush implements ShouldQueue
      */
 
 
-    public function __construct($amount, $phoneNumber)
+    public function __construct($dataArray)
     {
-        $this->amount = $amount;
-        $this->phoneNumber = $phoneNumber;
+        $this->dataArray = $dataArray;
+        // $this->amount = $amount;
+        // $this->phoneNumber = $phoneNumber;
     }
 
     /**
@@ -45,9 +48,12 @@ class MpesaStkPush implements ShouldQueue
 
         try {
 
+            $amount = $this->dataArray['amount'];
+            $phoneNumber = $this->dataArray['phoneNumber'];
+
             $client = new Client();
             $url = env("STK_LINK") . "WASILIANA-9008";
-            $params = array('phone_number' => $this->phoneNumber, 'amount' => $this->amount, 'type' => 'app');
+            $params = array('phone_number' => $phoneNumber, 'amount' => $amount, 'type' => 'app');
             $headers = [
                 'Content-Type' => 'application/json'
             ];

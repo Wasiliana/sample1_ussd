@@ -89,7 +89,11 @@ class UssdController extends Controller
                     // Write your stk or payment code here 
                     // $job = (new MpesaStkPush($ussdSes['text'], $phoneNumber))->delay(Carbon::now()->addSeconds(5));
                     // dispatch(new MpesaStkPush(5, $phoneNumber));
-                    MpesaStkPush::dispatch($ussdSes['text'], $phoneNumber);
+                    // MpesaStkPush::dispatch($ussdSes['text'], $phoneNumber);
+
+                    $postData['amount'] = $ussdSes['text'];
+                    $postData['phoneNumber'] = $phoneNumber;
+                    MpesaStkPush::dispatch($postData)->delay(now()->addMinutes(5));
                     // $tip_request_data = array(
                     //     'accessType' => 'express',
                     //     'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
