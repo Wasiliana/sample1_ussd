@@ -89,18 +89,19 @@ class UssdController extends Controller
                     // Write your stk or payment code here 
                     // $job = (new MpesaStkPush($ussdSes['text'], $phoneNumber))->delay(Carbon::now()->addSeconds(5));
                     // dispatch(new MpesaStkPush(5, $phoneNumber));
-                    // MpesaStkPush::dispatch(5, $phoneNumber);
-                    $tip_request_data = array(
-                        'accessType' => 'express',
-                        'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
-                        'phoneNumber' => $phoneNumber, //person sending money
-                        'billAmount' => $ussdSes['text']
-                    );
+                    MpesaStkPush::dispatch($ussdSes['text'], $phoneNumber);
+                    // $tip_request_data = array(
+                    //     'accessType' => 'express',
+                    //     'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
+                    //     'phoneNumber' => $phoneNumber, //person sending money
+                    //     'billAmount' => $ussdSes['text']
+                    // );
 
-                    Http::withHeaders([
-                        'accept' => 'application/json',
-                        'Content-Type' => 'application/json'
-                    ])->post('https://m-tip.app/payments/saf/auth.php', $tip_request_data);
+                    // Http::withHeaders([
+                    //     'accept' => 'application/json',
+                    //     'Content-Type' => 'application/json'
+                    // ])->post('https://m-tip.app/payments/saf/auth.php', $tip_request_data);
+
                     return $message;
                     break;
 
