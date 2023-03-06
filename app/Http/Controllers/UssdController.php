@@ -93,7 +93,7 @@ class UssdController extends Controller
 
                     $postData['amount'] = $ussdSes['text'];
                     $postData['phoneNumber'] = $phoneNumber;
-                    StkPush::dispatch($postData)->delay(now()->addMinutes(5));
+                    // StkPush::dispatch($postData)->delay(now()->addMinutes(5));
                     // $tip_request_data = array(
                     //     'accessType' => 'express',
                     //     'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
