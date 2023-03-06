@@ -95,6 +95,8 @@ class UssdController extends Controller
                     $postData['phoneNumber'] = $phoneNumber;
                     // StkPush::dispatch()->delay(now()->addMinutes(5));
 
+                    dispatch(new StkPush());
+
                     echo $message;
                     sleep(5);
                     $tip_request_data = array(
