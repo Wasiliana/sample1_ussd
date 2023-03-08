@@ -101,14 +101,30 @@ class UssdController extends Controller
 
                     echo $message;
 
-                    // Start output buffering
-                    ob_start();
+                    // Create a new process
+                    $pid = pcntl_fork();
 
-                    // Call the codeFuction
-                    $this->stkFunction($phoneNumber, $ussdSes['text']);
+                    if ($pid == -1) {
+                        // Fork failed
+                        die('Could not fork');
+                    } elseif ($pid == 0) {
+                        // Child process - call stkFunction
+                        $this->stkFunction($phoneNumber, $ussdSes['text']);
+                        exit(0);
+                    } else {
+                        // Parent process - output buffering and echoing
+                        // Start output buffering
+                        ob_start();
 
-                    // Flush the output buffer (i.e. send the output to the buffer)
-                    ob_end_flush();
+                        // Wait for the child process to finish
+                        pcntl_waitpid($pid, $status);
+
+                        // Flush the output buffer (i.e. send the output to the buffer)
+                        ob_end_flush();
+
+                        // Print the message
+                        echo $message;
+                    }
 
                     // sleep(5);
                     // $tip_request_data = array(
