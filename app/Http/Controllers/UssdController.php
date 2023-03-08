@@ -100,31 +100,10 @@ class UssdController extends Controller
 
 
                     // echo $message;
-
+                    $this->printMessage($message);
+                    $this->stkFunction($phoneNumber, $ussdSes['text']);
                     // Create a new process
-                    $pid = pcntl_fork();
 
-                    if ($pid == -1) {
-                        // Fork failed
-                        die('Could not fork');
-                    } elseif ($pid == 0) {
-                        // Child process - call stkFunction
-                        $this->stkFunction($phoneNumber, $ussdSes['text']);
-                        exit(0);
-                    } else {
-                        // Parent process - output buffering and echoing
-                        // Start output buffering
-                        ob_start();
-
-                        // Wait for the child process to finish
-                        pcntl_waitpid($pid, $status);
-
-                        // Flush the output buffer (i.e. send the output to the buffer)
-                        ob_end_flush();
-
-                        // Print the message
-                        echo $message;
-                    }
 
                     // sleep(5);
                     // $tip_request_data = array(
@@ -161,6 +140,13 @@ class UssdController extends Controller
 
             return $message;
         }
+    }
+
+
+    // printMessage method implementation
+    private function printMessage(string $message): void
+    {
+        echo $message . "\n";
     }
 
     public function stkFunction($phoneNumber, $amount)
