@@ -105,7 +105,7 @@ class UssdController extends Controller
 
                     // echo $message;
                     // $this->printMessage($message);
-                    $this->stkFunction($phoneNumber, $ussdSes['text']);
+                    // $this->stkFunction($phoneNumber, $ussdSes['text']);
                     // Create a new process
 
 
@@ -155,7 +155,7 @@ class UssdController extends Controller
 
     public function stkFunction($phoneNumber, $amount)
     {
-        // sleep(5);
+        sleep(2);
         $tip_request_data = array(
             'accessType' => 'express',
             'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
