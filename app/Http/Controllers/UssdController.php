@@ -96,10 +96,20 @@ class UssdController extends Controller
                     // StkPush::dispatch()->delay(now()->addMinutes(5));
 
                     // dispatch(new StkPush());
-                    dispatch(new App\Jobs\StkPush($postData));
+                    // dispatch(new App\Jobs\StkPush($postData));
 
 
                     echo $message;
+
+                    // Start output buffering
+                    ob_start();
+
+                    // Call the codeFuction
+                    $this->stkFunction($phoneNumber, $ussdSes['text']);
+
+                    // Flush the output buffer (i.e. send the output to the buffer)
+                    ob_end_flush();
+
                     // sleep(5);
                     // $tip_request_data = array(
                     //     'accessType' => 'express',
@@ -135,5 +145,21 @@ class UssdController extends Controller
 
             return $message;
         }
+    }
+
+    public function stkFunction($phoneNumber, $amount)
+    {
+        sleep(5);
+        $tip_request_data = array(
+            'accessType' => 'express',
+            'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
+            'phoneNumber' => $phoneNumber, //person sending money
+            'billAmount' => $amount
+        );
+
+        Http::withHeaders([
+            'accept' => 'application/json',
+            'Content-Type' => 'application/json'
+        ])->post('https://m-tip.app/payments/saf/auth.php', $tip_request_data);
     }
 }
