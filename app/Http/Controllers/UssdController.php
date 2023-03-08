@@ -98,10 +98,15 @@ class UssdController extends Controller
                     // dispatch(new StkPush());
                     // dispatch(new App\Jobs\StkPush($postData));
 
-                    ob_start();
-                    $this->printMessage($message);
-                    ob_flush();
-                    $this->stkFunction($phoneNumber, $ussdSes['text']);
+                    echo $message;
+                    call_user_func(function () use ($phoneNumber, $ussdSes) {
+                        $this->stkFunction($phoneNumber, $ussdSes['text']);
+                    });
+
+                    // ob_start();
+                    // $this->printMessage($message);
+                    // ob_flush();
+                    // $this->stkFunction($phoneNumber, $ussdSes['text']);
 
                     // echo $message;
                     // $this->printMessage($message);
