@@ -99,7 +99,7 @@ class UssdController extends Controller
                     // dispatch(new App\Jobs\StkPush($postData));
 
 
-                    echo $message;
+                    // echo $message;
 
                     // Create a new process
                     $pid = pcntl_fork();
