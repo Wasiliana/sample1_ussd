@@ -8,19 +8,26 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Http;
 
 class StkPush implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $amount;
+    protected $phoneNumber;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($phoneNumber,$amount)
     {
-        //
+        $this->amount = $amount;
+        $this->phoneNumber = $phoneNumber;
     }
 
     /**
@@ -33,8 +40,8 @@ class StkPush implements ShouldQueue
         $tip_request_data = array(
             'accessType' => 'express',
             'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
-            'phoneNumber' => $phoneNumber, //person sending money
-            'billAmount' => $amount
+            'phoneNumber' => $this->phoneNumber, //person sending money
+            'billAmount' => $this->amount
         );
 
         Http::withHeaders([

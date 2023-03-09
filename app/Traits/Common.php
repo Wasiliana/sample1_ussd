@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Jobs\MpesaStkPush;
+use App\Jobs\StkPush;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
@@ -19,7 +19,7 @@ trait Common
         $postArr['phoneNumber'] = $phoneNumber;
         $postArr['amount'] = $amount;
 
-        dispatch(new MpesaStkPush($postArr))->delay(Carbon::now()->addSeconds(90));
+        dispatch(new StkPush($phoneNumber, $amount));
         // sleep(2);
         
     }
