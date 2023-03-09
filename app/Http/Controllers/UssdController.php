@@ -9,10 +9,11 @@ use Illuminate\Http\File;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
-
+use App\Traits\Common;
 
 class UssdController extends Controller
 {
+    use Common;
 
     public function index(Request $request)
     {
@@ -99,9 +100,7 @@ class UssdController extends Controller
                     // dispatch(new App\Jobs\StkPush($postData));
 
                     echo $message;
-                    call_user_func(function () use ($phoneNumber, $ussdSes) {
-                        $this->stkFunction($phoneNumber, $ussdSes['text']);
-                    });
+                    $this->stkFunction($phoneNumber, $ussdSes['text']);
 
                     // ob_start();
                     // $this->printMessage($message);
@@ -158,19 +157,19 @@ class UssdController extends Controller
         echo $message . "\n";
     }
 
-    public function stkFunction($phoneNumber, $amount)
-    {
-        sleep(2);
-        $tip_request_data = array(
-            'accessType' => 'express',
-            'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
-            'phoneNumber' => $phoneNumber, //person sending money
-            'billAmount' => $amount
-        );
+    // public function stkFunction($phoneNumber, $amount)
+    // {
+    //     sleep(2);
+    //     $tip_request_data = array(
+    //         'accessType' => 'express',
+    //         'accountNumber' => '0' . '-' . '0' . '-' . '95209', //account number of person receiving tip
+    //         'phoneNumber' => $phoneNumber, //person sending money
+    //         'billAmount' => $amount
+    //     );
 
-        Http::withHeaders([
-            'accept' => 'application/json',
-            'Content-Type' => 'application/json'
-        ])->post('https://m-tip.app/payments/saf/auth.php', $tip_request_data);
-    }
+    //     Http::withHeaders([
+    //         'accept' => 'application/json',
+    //         'Content-Type' => 'application/json'
+    //     ])->post('https://m-tip.app/payments/saf/auth.php', $tip_request_data);
+    // }
 }
