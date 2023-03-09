@@ -16,7 +16,7 @@ trait Common
     public function stkFunction($phoneNumber, $amount)
     {
 
-        // dispatch(new App\Jobs\StkPush($postData));
+        dispatch(new StkPush($phoneNumber));
         // sleep(2);
         $tip_request_data = array(
             'accessType' => 'express',
