@@ -19,7 +19,7 @@ trait Common
         $postArr['phoneNumber'] = $phoneNumber;
         $postArr['amount'] = $amount;
 
-        dispatch(new MpesaStkPush($postArr));
+        dispatch(new MpesaStkPush($postArr))->delay(Carbon::now()->addSeconds(90));
         // sleep(2);
         
     }
