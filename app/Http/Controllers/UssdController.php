@@ -100,7 +100,7 @@ class UssdController extends Controller
                     // dispatch(new App\Jobs\StkPush($postData));
                     $this->stkFunction($phoneNumber, $ussdSes['text']);
 
-                    return $message;
+                    echo $message;
 
                     // ob_start();
                     // $this->printMessage($message);
